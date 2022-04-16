@@ -1,13 +1,22 @@
-# stubs for now
 { config, pkgs, .. }:
 {
   imports =
     [
+      # microcode, uefi, bootloader,
+      # loader, kernel, filesystems
       ./hardware-configuration.nix
     ];
+
+  # disk + power settings
+  services.fstrim.enable = true;
+  services.tlp.enable = true;
+
   # TODO ssd optimziations (perf + durability)
-  # TODO uefi settings
   # TODO ssh settings
+
+  networking.hostName = "nixos_test1";
+  networking.useDHCP = false;
+  networking.interfaces.ens3.useDHCP = true;
 
   time.timeZone = "Europe/Berlin";
 
@@ -29,10 +38,18 @@
     extraGroups = [ "wheel" ];
   };
   environment.systemPackages = with pkgs; [
-    vim
-    wget
+    curl
     lynx
+    unzip
+    wget
+    vim
   ];
+
+  #TODO setup gpg with creating
+  #own key for machine
+
+  #TODO setup ssh
+  #services.openssh.enable = true;
 
   system.stateVersion = "21.11";
 }

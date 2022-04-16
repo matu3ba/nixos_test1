@@ -25,10 +25,18 @@ qemu-system-x86_64 -enable-kvm -boot d \
 -m 2G -cpu host -smp 2 -hda nixos-encrypted.img
 # to work from in host shell for efi image (in dos one can select ttyS0 from grub)
 # run the following after nixos was booted:
-systemctl start serial-getty@ttyS0
+sudo systemctl start serial-getty@ttyS0
 ```
 5. setting up harddrive: run install-testbox.sh
-6. TODO: minimal user config for testing uefi
+6. TODO: minimal user config for testing uefi:
+```sh
+sudo nixos-generate-config --root /mnt
+curl -LO github.com/matu3ba/nixos_test1/archive/master.zip
+#wget github.com/matu3ba/nixos_test1/archive/master.zip # wget not installed
+unzip master.zip
+mv nixos_test1-master/ nixos_test1/ # github archiver being annoyoing
+```
+7. `sudo nixos-install --no-root-passwd`
 7. qemu run user
 8. TODO: minimal user config for testing ssh
 9. TODO: minimal user config for automatic sending of commands via ssh

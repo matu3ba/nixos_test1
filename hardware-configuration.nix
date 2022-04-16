@@ -2,8 +2,22 @@
 {
   imports =
     [ (modulesPath + "/profiles/qemu-guest.nix") ];
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod
-"virtio_blk" ];
+
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedisstributableFirmware;
+
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+
+  boot.initrd.luks.devices."nixos-decrypted".device = "/dev/disk/by-partlabel/root";
+  # try later also "sr_mod"
+  boot.initrd.availableKernelModules =
+    [ "ahci"
+      "nvme"
+      "sd_mod"
+      "xhci_pci"
+      "virtio_pci"
+      "virtio_blk"
+    ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -16,7 +30,7 @@
     { device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
-  #swapDevices =
-  #  [ { device = "/dev/disk/by-label/swap"; } ];
+  swapDevices = [ ];
+
   nix.maxJobs = lib.mkDefault 4;
 }
