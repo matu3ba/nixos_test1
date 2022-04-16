@@ -31,13 +31,22 @@ sudo systemctl start serial-getty@ttyS0
 6. TODO: minimal user config for testing uefi:
 ```sh
 sudo nixos-generate-config --root /mnt
-curl -LO github.com/matu3ba/nixos_test1/archive/master.zip
+curl -LO github.com/matu3ba/nixos_test1/archive/master.zip # workaround: git not installed
 #wget github.com/matu3ba/nixos_test1/archive/master.zip # wget not installed
 unzip master.zip
 mv nixos_test1-master/ nixos_test1/ # github archiver being annoyoing
 ```
 7. `sudo nixos-install --no-root-passwd`
-7. qemu run user
+8. qemu run user
+```sh
+qemu-system-x86_64 -enable-kvm \
+-serial mon:stdio \
+-net user \
+-net nic \
+-drive if=pflash,format=raw,unit=0,readonly=on,file=OVMF.fd \
+-drive if=pflash,format=raw,unit=1,file=OVMF_VARS.fd \
+-m 2G -cpu host -smp 2 -hda nixos-encrypted.img
+```
 8. TODO: minimal user config for testing ssh
 9. TODO: minimal user config for automatic sending of commands via ssh
 10. TODO: zig fun: fetch+build stuff from source to test, if setup works
