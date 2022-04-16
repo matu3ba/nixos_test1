@@ -3,7 +3,8 @@
   imports =
     [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedisstributableFirmware;
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true;
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;

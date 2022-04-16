@@ -1,4 +1,4 @@
-{ config, pkgs, .. }:
+{ config, pkgs, ... }:
 {
   imports =
     [
@@ -20,7 +20,7 @@
 
   time.timeZone = "Europe/Berlin";
 
-  i18 = {
+  i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
       LC_MESSAGES = "en_US.UTF-8";
